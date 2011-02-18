@@ -1,0 +1,16 @@
+# PickBoat configuration file
+# default settings will drop a pickable boat whenever a boat crashes, or is
+# destroyed by a user
+
+# boat is killed when destroyed by a player
+boats_die_when_destroyed: false
+
+# boat is killed when it crashes
+boats_die_when_crashed: false
+
+# if a boat is killed, send it to the user's inventory instead of dropping it
+boats_return_to_owner: false
+
+# if a boat is killed by a player while another player is in it, give it to the
+# attacker instead of the passenger
+boats_return_to_attacker: false
