@@ -59,6 +59,7 @@ public class PickBoatBoatListener extends VehicleListener {
 
         if (speed > 0.15) { // boat will die
             event.getVehicle().setVelocity(new Vector(0,0,0));
+            if (plugin.getConfiguration().getBoolean("boats_never_crash", false)) return;
             eb.q(); // destroy boat
 
             // find out who gets the boat
