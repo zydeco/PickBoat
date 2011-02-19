@@ -1,4 +1,4 @@
-package com.bukkit.namedfork.PickBoat;
+package net.namedfork.bukkit.PickBoat;
 
 import java.io.*;
 import java.util.HashMap;

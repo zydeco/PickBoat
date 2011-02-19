@@ -1,4 +1,4 @@
-package com.bukkit.namedfork.PickBoat;
+package net.namedfork.bukkit.PickBoat;
 
 import org.bukkit.entity.Boat;
 import org.bukkit.*;
