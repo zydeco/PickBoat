@@ -1,18 +1,13 @@
 package net.namedfork.bukkit.PickBoat;
 
-import java.io.*;
-import java.util.HashMap;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 import java.util.jar.JarFile;
 import java.util.jar.JarEntry;
-import org.bukkit.Server;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
@@ -24,13 +19,6 @@ import org.bukkit.util.config.Configuration;
  */
 public class PickBoat extends JavaPlugin {
     private final PickBoatBoatListener boatListener = new PickBoatBoatListener(this);
-    
-    public PickBoat(PluginLoader pluginLoader, Server instance,
-            PluginDescriptionFile desc, File folder, File plugin,
-            ClassLoader cLoader) throws IOException {
-        super(pluginLoader, instance, desc, folder, plugin, cLoader);
-
-    }
 
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
