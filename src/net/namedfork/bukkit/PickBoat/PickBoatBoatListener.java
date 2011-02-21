@@ -52,6 +52,7 @@ public class PickBoatBoatListener extends VehicleListener {
     }
 
     public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
+        if (!(event.getVehicle() instanceof Boat)) return;
         CraftBoat cb = (CraftBoat)event.getVehicle();
         EntityBoat eb = (EntityBoat)cb.getHandle();
         Location loc = event.getVehicle().getLocation();
