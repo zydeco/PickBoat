@@ -35,7 +35,7 @@ public class PickBoatBoatListener extends VehicleListener {
         
         // kill it and drop a boat
         if (damage + event.getDamage()*10 > 40) {
-            eb.q(); // destroy boat
+            event.getVehicle().remove();
             event.setCancelled(true);
 
             // find out who gets the boat
@@ -51,17 +51,16 @@ public class PickBoatBoatListener extends VehicleListener {
         }
     }
 
-    public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
+   public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
         if (!(event.getVehicle() instanceof Boat)) return;
         CraftBoat cb = (CraftBoat)event.getVehicle();
-        EntityBoat eb = (EntityBoat)cb.getHandle();
         Location loc = event.getVehicle().getLocation();
         double speed = event.getVehicle().getVelocity().length();
 
-        if (speed > 0.15) { // boat will die
+        if (speed > 0.15) { // boat will die¡
             event.getVehicle().setVelocity(new Vector(0,0,0));
             if (plugin.getConfiguration().getBoolean("boats_never_crash", false)) return;
-            eb.q(); // destroy boat
+            event.getVehicle().remove(); // destroy boat
 
             // find out who gets the boat
             Player p = null;
