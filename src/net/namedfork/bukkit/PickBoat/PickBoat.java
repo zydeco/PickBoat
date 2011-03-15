@@ -20,6 +20,10 @@ import org.bukkit.util.config.Configuration;
 public class PickBoat extends JavaPlugin {
     private final PickBoatBoatListener boatListener = new PickBoatBoatListener(this);
 
+    public void onLoad() {
+        
+    }
+
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");

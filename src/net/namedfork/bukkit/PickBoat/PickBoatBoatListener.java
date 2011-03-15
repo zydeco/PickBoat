@@ -6,6 +6,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.event.vehicle.*;
 import org.bukkit.inventory.ItemStack;
 import net.minecraft.server.EntityBoat;
+import org.bukkit.block.*;
 import org.bukkit.craftbukkit.entity.CraftBoat;
 import org.bukkit.entity.Player;
 
@@ -51,13 +52,15 @@ public class PickBoatBoatListener extends VehicleListener {
         }
     }
 
-   public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
+    public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
         if (!(event.getVehicle() instanceof Boat)) return;
         CraftBoat cb = (CraftBoat)event.getVehicle();
         Location loc = event.getVehicle().getLocation();
-        double speed = event.getVehicle().getVelocity().length();
+        double motX = cb.getVelocity().getX();
+        double motZ = cb.getVelocity().getZ();
+        double speed = Math.sqrt(motX * motX + motZ * motZ);
 
-        if (speed > 0.15) { // boat will die¡
+        if (speed > 0.15) { // boat will die
             event.getVehicle().setVelocity(new Vector(0,0,0));
             if (plugin.getConfiguration().getBoolean("boats_never_crash", false)) return;
             event.getVehicle().remove(); // destroy boat
