@@ -19,7 +19,8 @@ import org.bukkit.util.config.Configuration;
  */
 public class PickBoat extends JavaPlugin {
     private final PickBoatBoatListener boatListener = new PickBoatBoatListener(this);
-
+    public boolean boatsDieWhenDestroyed, boatsDieWhenCrashed, boatsReturnToOwner, boatsReturnToAttacker, boatsNeverCrash;
+    
     public void onLoad() {
         
     }
@@ -27,15 +28,25 @@ public class PickBoat extends JavaPlugin {
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
+        
+        // load configuration
         this.loadConfigFile();
         Configuration cfg = this.getConfiguration();
+        boatsDieWhenDestroyed = cfg.getBoolean("boats_die_when_destroyed", false);
+        boatsDieWhenCrashed = cfg.getBoolean("boats_die_when_crashed", false);
+        boatsReturnToOwner = cfg.getBoolean("boats_return_to_owner", false);
+        boatsReturnToAttacker = cfg.getBoolean("boats_return_to_attacker", false);
+        boatsNeverCrash = cfg.getBoolean("boats_never_crash", false);
 
         PluginManager pm = getServer().getPluginManager();
-        if (!cfg.getBoolean("boats_die_when_destroyed", false))
-            pm.registerEvent(Event.Type.VEHICLE_DAMAGE, boatListener, Priority.High, this);
-        if (!cfg.getBoolean("boats_die_when_crashed", false))
+        try {
+            pm.registerEvent(Event.Type.VEHICLE_DESTROY, boatListener, Priority.High, this);
+        } catch (Exception e) {
+            if (!boatsDieWhenDestroyed)
+                pm.registerEvent(Event.Type.VEHICLE_DAMAGE, boatListener, Priority.High, this);
+        }
+        if (!boatsDieWhenCrashed)
             pm.registerEvent(Event.Type.VEHICLE_COLLISION_BLOCK, boatListener, Priority.High, this);
-        
     }
     
     public void onDisable() {
