@@ -8,7 +8,6 @@ import java.util.jar.JarEntry;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
 
@@ -18,12 +17,7 @@ import org.bukkit.util.config.Configuration;
  * @author Jesús A. Álvarez (zydeco@namedfork.net)
  */
 public class PickBoat extends JavaPlugin {
-    private final PickBoatBoatListener boatListener = new PickBoatBoatListener(this);
     public boolean boatsDieWhenDestroyed, boatsDieWhenCrashed, boatsReturnToOwner, boatsReturnToAttacker, boatsNeverCrash;
-    
-    public void onLoad() {
-        
-    }
 
     public void onEnable() {
         PluginDescriptionFile pdfFile = this.getDescription();
@@ -38,15 +32,9 @@ public class PickBoat extends JavaPlugin {
         boatsReturnToAttacker = cfg.getBoolean("boats_return_to_attacker", false);
         boatsNeverCrash = cfg.getBoolean("boats_never_crash", false);
 
-        PluginManager pm = getServer().getPluginManager();
-        try {
-            pm.registerEvent(Event.Type.VEHICLE_DESTROY, boatListener, Priority.High, this);
-        } catch (Exception e) {
-            if (!boatsDieWhenDestroyed)
-                pm.registerEvent(Event.Type.VEHICLE_DAMAGE, boatListener, Priority.High, this);
-        }
-        if (!boatsDieWhenCrashed)
-            pm.registerEvent(Event.Type.VEHICLE_COLLISION_BLOCK, boatListener, Priority.High, this);
+        
+        PickBoatBoatListener boatListener = new PickBoatBoatListener(this);
+        boatListener.registerEvents();
     }
     
     public void onDisable() {
