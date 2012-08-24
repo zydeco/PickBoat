@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Set;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 import org.bukkit.event.vehicle.*;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +27,9 @@ public class PickBoatBoatListener implements Listener {
         if (!(event.getVehicle() instanceof Boat)) return;
         Boat boat = (Boat) event.getVehicle();
         Entity attacker = event.getAttacker();
-        if ((plugin.getConfig().getBoolean("boats_die_when_crashed") && attacker == null) ||
-                (plugin.getConfig().getBoolean("boats_die_when_destroyed") && attacker != null)) {
+        FileConfiguration cfg = plugin.getConfig(event.getVehicle().getWorld());
+        if ((cfg.getBoolean("boats_die_when_crashed") && attacker == null) ||
+                (cfg.getBoolean("boats_die_when_destroyed") && attacker != null)) {
             // remove boat
             boat.remove();
             event.setCancelled(true);
@@ -35,10 +37,10 @@ public class PickBoatBoatListener implements Listener {
             // drop things
             ConfigurationSection drops = null;
             try {
-                drops = (ConfigurationSection)plugin.getConfig().get("boat_drop");
+                drops = (ConfigurationSection)cfg.get("boat_drop");
             } catch (Exception e) {
                 System.out.println("[PickBoat] using default boat_drop");
-                drops = (ConfigurationSection)plugin.getConfig().getDefaults().get("boat_drop");
+                drops = (ConfigurationSection)cfg.getDefaults().get("boat_drop");
             }
             
             Set<String> dropKeys = drops.getKeys(false);
@@ -79,7 +81,7 @@ public class PickBoatBoatListener implements Listener {
             return;
         }
         
-        if (plugin.getConfig().getBoolean("boats_never_crash") && attacker == null) {
+        if (cfg.getBoolean("boats_never_crash") && attacker == null) {
             // boat crashed
             boat.setVelocity(new Vector(0,0,0));
             event.setCancelled(true);
@@ -92,9 +94,9 @@ public class PickBoatBoatListener implements Listener {
         
         // find out who gets the boat
         Player boatReceiver = null;
-        if (plugin.getConfig().getBoolean("boats_return_to_owner") && boat.getPassenger() instanceof Player) {
+        if (cfg.getBoolean("boats_return_to_owner") && boat.getPassenger() instanceof Player) {
             boatReceiver = (Player) boat.getPassenger();
-        } else if (plugin.getConfig().getBoolean("boats_return_to_attacker") && attacker instanceof Player) {
+        } else if (cfg.getBoolean("boats_return_to_attacker") && attacker instanceof Player) {
             boatReceiver = (Player) attacker;
         }
         
@@ -107,8 +109,9 @@ public class PickBoatBoatListener implements Listener {
         if (!(event.getVehicle() instanceof Boat)) return;
         if (!(event.getExited() instanceof Player)) return;
         Player p = (Player)event.getExited();
+        FileConfiguration cfg = plugin.getConfig(event.getVehicle().getWorld());
         
-        if (plugin.getConfig().getBoolean("boats_return_on_exit")) {
+        if (cfg.getBoolean("boats_return_on_exit")) {
             // return boat to player's inventory
             event.getVehicle().remove();
             giveOrDropBoat(p, p.getLocation());

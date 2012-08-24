@@ -1,6 +1,8 @@
 # PickBoat configuration file
 # default settings will drop a pickable boat whenever a boat crashes, or is
 # destroyed by a user
+# per-world configuration: copy this file as <world name>.yml, and it will
+# be used for that world. If no per-world file exists, config.yml is used
 
 # boats_die_when_destroyed:
 #   boat breaks into wood and sticks when destroyed by a player
