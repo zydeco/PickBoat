@@ -99,9 +99,25 @@ public class PickBoatBoatListener implements Listener {
         }
         
         // give or drop boat
+        giveOrDropBoat(boatReceiver, boat.getLocation());
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onVehicleExit(VehicleExitEvent event) {
+        if (!(event.getVehicle() instanceof Boat)) return;
+        if (!(event.getExited() instanceof Player)) return;
+        Player p = (Player)event.getExited();
+        
+        if (plugin.getConfig().getBoolean("boats_return_on_exit")) {
+            // return boat to player's inventory
+            event.getVehicle().remove();
+            giveOrDropBoat(p, p.getLocation());
+        }
+    }
+
+    private void giveOrDropBoat(Player boatReceiver, Location loc) {
         ItemStack boatStack = new ItemStack(Material.BOAT, 1);
         if (boatReceiver == null || boatReceiver.getInventory().addItem(boatStack).isEmpty() == false) {
-            Location loc = boat.getLocation();
             loc.getWorld().dropItemNaturally(loc, boatStack);
         }
     }

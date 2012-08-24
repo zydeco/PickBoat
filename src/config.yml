@@ -6,13 +6,15 @@
 #   boat breaks into wood and sticks when destroyed by a player
 # boats_die_when_crashed:
 #   boat breaks into wood and sticks when it crashes
-# boats_return_to_owner: 
-#   if a boat is destroyed, send it to the user's inventory instead of dropping it
 # boats_never_crash: 
 #   boats won't break if they crash
+# boats_return_to_owner: 
+#   if a boat is destroyed, send it to the user's inventory instead of dropping it
 # boats_return_to_attacker: 
 #   if a boat is destroyed by a player while another player is in it, give it 
 #   to the attacker instead of the passenger
+# boats_return_on_exit:
+#   return the boat to the owner's inventory when exiting it
 # boat_drop:
 #   things to drop when a boat breaks, use names (from Material.* constants) or IDs
 
@@ -21,6 +23,7 @@ boats_die_when_crashed: false
 boats_never_crash: false
 boats_return_to_owner: false
 boats_return_to_attacker: false
+boats_return_on_exit: false
 boat_drop:
   stick: 2
   wood: 3
